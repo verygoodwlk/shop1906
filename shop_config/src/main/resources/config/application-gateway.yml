@@ -1,0 +1,12 @@
+server:
+  port: 16666
+spring:
+  application:
+    name: gateway
+  cloud:
+    gateway:
+      #配置请求路由
+      routes:
+        - uri: lb://web-back
+          predicates:
+            - Path=/,/resources/**,/tohome
