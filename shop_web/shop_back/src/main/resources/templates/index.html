@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <base th:href="|${#request.getContextPath()}/|"/>
+    <base th:href="|${#request.getContextPath()}/back/|"/>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>Simpla Admin</title>
     <!--                       CSS                       -->
@@ -65,11 +65,10 @@
             <ul id="main-nav">
                 <li><a onclick="itemclick(this);" name="tohome"
                        class="nav-top-item no-submenu"> 主页 </a></li>
-                <li><a class="nav-top-item"> 主菜单 </a>
+                <li><a class="nav-top-item"> 商品管理 </a>
                     <ul>
-                        <li><a onclick="itemclick(this);" name="table.html">表格</a></li>
-                        <li><a onclick="itemclick(this);" name="form.html">表单</a></li>
-                        <li><a onclick="itemclick(this);" name="notifocation.html">通知</a></li>
+                        <li><a onclick="itemclick(this);" name="table.html">分类管理</a></li>
+                        <li><a onclick="itemclick(this);" name="goodsManager/list">商品管理</a></li>
                     </ul>
                 </li>
             </ul>

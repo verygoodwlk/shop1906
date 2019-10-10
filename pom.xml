@@ -7,6 +7,7 @@
         <module>shop_commons</module>
         <module>shop_entity</module>
         <module>shop_web</module>
+        <module>shop_feign</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>

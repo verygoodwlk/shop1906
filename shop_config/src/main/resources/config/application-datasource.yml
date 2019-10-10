@@ -4,3 +4,7 @@ spring:
     username: root
     password: root
     driver-class-name: com.mysql.jdbc.Driver
+mybatis-plus:
+  configuration:
+    #表示mybatis打印sql语句的方式，将sql语句打印到控制台
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl

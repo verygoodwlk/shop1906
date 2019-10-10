@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <base th:href="|${#request.getContextPath()}/back/|"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Insert title here</title>
+    <!-- Invalid Stylesheet. This makes stuff look pretty. Remove it if you want the CSS completely valid -->
+    <!-- Reset Stylesheet -->
+    <link rel="stylesheet" href="resources/css/reset.css" type="text/css"
+          media="screen" />
+    <!-- Main Stylesheet -->
+    <link rel="stylesheet" href="resources/css/style.css" type="text/css"
+          media="screen" />
+    <link rel="stylesheet" href="resources/css/invalid.css" type="text/css"
+          media="screen" />
+
+    <!--                       Javascripts                       -->
+    <!-- jQuery -->
+    <script type="text/javascript"
+            src="resources/scripts/jquery-1.8.3.min.js"></script>
+    <!-- jQuery Configuration -->
+    <script type="text/javascript"
+            src="resources/scripts/simpla.jquery.configuration.js"></script>
+
+    <!-- 弹出框插件的依赖 -->
+    <link rel="stylesheet" href="//apps.bdimg.com/libs/jqueryui/1.10.4/css/jquery-ui.min.css">
+    <script type="text/javascript"
+            src="resources/widget/dialog/jquery-ui-1.9.2.custom.min.js"></script>
+
+    <script>
+        /**
+         * 弹出添加商品的弹出框
+         */
+        function dialog_addgoods(){
+            //弹出隐藏的弹出框
+            $("#goodsadd_div").dialog({
+                title: "添加商品",
+                width: 800,
+                height: 700,
+                modal: true
+            });
+        }
+    </script>
+
+</head>
+<body>
+<div id="main-content">
+    <div class="content-box">
+        <!-- End .content-box-header -->
+        <div class="content-box-content">
+            <div class="tab-content default-tab" id="tab1">
+                <table>
+                    <thead>
+                    <tr>
+                        <th><input class="check-all" type="checkbox" /></th>
+                        <th>编号</th>
+                        <th>商品名称</th>
+                        <th>图片(封面)</th>
+                        <th>商品价格</th>
+                        <th>库存</th>
+                        <th>创建时间</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+
+                    <tbody>
+                    <tr th:each="goods : ${goodsList}">
+                        <td><input type="checkbox" /></td>
+                        <td th:text="${goods.id}">Lorem ipsum dolor</td>
+                        <td th:text="${goods.subject}">Lorem ipsum dolor</td>
+                        <td>图片</td>
+                        <td th:text="${#numbers.formatCurrency(goods.price.doubleValue())}">价格</td>
+                        <td th:text="${goods.save}">库存</td>
+                        <td th:text="${#dates.format(goods.createTime, 'yyyy-MM-dd HH:mm:ss')}">库存</td>
+                        <td>
+                            <!-- Icons --> <a href="#" title="Edit"><img
+                                src="resources/images/icons/pencil.png" alt="Edit" /></a> <a
+                                href="#" title="Delete"><img
+                                src="resources/images/icons/cross.png" alt="Delete" /></a> <a
+                                href="#" title="Edit Meta"><img
+                                src="resources/images/icons/hammer_screwdriver.png"
+                                alt="Edit Meta" /></a>
+                        </td>
+                    </tr>
+                    </tbody>
+
+                    <tfoot>
+                    <tr>
+                        <td colspan="6">
+                            <div class="bulk-actions align-left">
+                                <a class="mybutton" onclick="dialog_addgoods();" >添加商品</a>
+                            </div>
+                            <div class="pagination">
+                                <a href="#" title="First Page">&laquo; First</a><a href="#"
+                                                                                   title="Previous Page">&laquo; Previous</a> <a href="#"
+                                                                                                                                 class="number" title="1">1</a> <a href="#" class="number"
+                                                                                                                                                                   title="2">2</a> <a href="#" class="number current" title="3">3</a>
+                                <a href="#" class="number" title="4">4</a> <a href="#"
+                                                                              title="Next Page">Next &raquo;</a><a href="#"
+                                                                                                                   title="Last Page">Last &raquo;</a>
+                            </div> <!-- End .pagination -->
+                            <div class="clear"></div>
+                        </td>
+                    </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+        <!-- End .content-box-content -->
+    </div>
+</div>
+<!-- End #main-content -->
+
+<!-- 弹出框的内容，默认隐藏的 -->
+<div id="goodsadd_div" style="display: none;">
+    <div class="content-box">
+        <div class="content-box-content">
+            <div class="tab-content default-tab" id="tab2">
+                <form action="#" method="post">
+                    <fieldset>
+                        <!-- Set class to "column-left" or "column-right" on fieldsets to divide the form into columns -->
+                        <p>
+                            <label>商品标题</label> <input
+                                class="text-input medium-input" type="text" id="subject"
+                                name="subject" />
+                        </p>
+                        <p>
+                            <label>上传封面</label>
+                        </p>
+                        <p>
+                            <label>上传其他图片</label>
+                        </p>
+                        <p>
+                            <label>价格</label> <input
+                                class="text-input small-input" type="text" id="price"
+                                name="price" />
+                        </p>
+                        <p>
+                            <label>库存</label> <input
+                                class="text-input small-input" type="text" id="save"
+                                name="save" />
+                        </p>
+                        <p>
+                            <label>商品详情介绍</label>
+                            <textarea class="text-input textarea wysiwyg" id="info"
+                                      name="info" cols="79" rows="15"></textarea>
+                        </p>
+                        <p>
+                            <input class="mybutton" type="submit" value="Submit" />
+                        </p>
+                    </fieldset>
+                    <div class="clear"></div>
+                    <!-- End .clear -->
+                </form>
+            </div>
+            <!-- End #tab2 -->
+        </div>
+        <!-- End .content-box-content -->
+    </div>
+</div>
+
+</body>
+</html>
