@@ -18,16 +18,79 @@
     <!-- jQuery -->
     <script type="text/javascript"
             src="resources/scripts/jquery-1.8.3.min.js"></script>
-    <!-- jQuery Configuration -->
+    <!-- jQuery Configuration
     <script type="text/javascript"
-            src="resources/scripts/simpla.jquery.configuration.js"></script>
+            src="resources/scripts/simpla.jquery.configuration.js"></script>-->
 
     <!-- 弹出框插件的依赖 -->
     <link rel="stylesheet" href="//apps.bdimg.com/libs/jqueryui/1.10.4/css/jquery-ui.min.css">
     <script type="text/javascript"
             src="resources/widget/dialog/jquery-ui-1.9.2.custom.min.js"></script>
 
+    <!-- 引入webuploader上传控件 -->
+    <link rel="stylesheet" href="resources/widget/webuploader/webuploader.css">
+    <script type="text/javascript"
+            src="resources/widget/webuploader/webuploader.min.js"></script>
+
     <script>
+        /**
+         * 页面加载好后初始化
+         */
+        $(function(){
+            // 初始化Web Uploader
+            var uploader = WebUploader.create({
+                // 选完文件后，是否自动上传。
+                auto: true,
+                // swf文件路径
+                swf: 'resources/widget/webuploader/Uploader.swf',
+                // 文件接收服务端。
+                server: 'goodsManager/uploader',
+                // 选择文件的按钮。可选。
+                // 内部根据当前运行是创建，可能是input元素，也可能是flash.
+                pick: '#filePicker1'
+            });
+
+            //绑定一个上传成功的回调事件
+            uploader.on('uploadSuccess', function(file, response){
+                //通过文件名称，进行图片的回显示
+                var filename = response.filename;
+
+                //设置image显示的图片
+                $("#img_fengmian").attr("src", "goodsManager/showImg?filename=" + filename);
+
+                //設置封面的路徑到隱藏域
+                $("#hidden_fengmian").val(filename);
+
+            });
+        });
+
+
+        $(function(){
+            // 初始化Web Uploader
+            var uploader2 = WebUploader.create({
+                // 选完文件后，是否自动上传。
+                auto: true,
+                // swf文件路径
+                swf: 'resources/widget/webuploader/Uploader.swf',
+                // 文件接收服务端。
+                server: 'goodsManager/uploader',
+                // 选择文件的按钮。可选。
+                // 内部根据当前运行是创建，可能是input元素，也可能是flash.
+                pick: '#filePicker2'
+            });
+
+            //绑定一个上传成功的回调事件
+            uploader2.on('uploadSuccess', function(file, response){
+                //通过文件名称，进行图片的回显示
+                var filename = response.filename;
+
+                var html = "<img style='width: 100px; height: 90px; margin: 5px' src='goodsManager/showImg?filename=" + filename + "'/>";
+                html += "<input type='hidden' name='otherImg' value='" + filename + "'/>";
+
+                $("#img_other").append(html);
+            });
+        });
+
         /**
          * 弹出添加商品的弹出框
          */
@@ -116,7 +179,8 @@
     <div class="content-box">
         <div class="content-box-content">
             <div class="tab-content default-tab" id="tab2">
-                <form action="#" method="post">
+                <!-- form表单 提交商品信息 -->
+                <form action="goodsManager/insert" method="post">
                     <fieldset>
                         <!-- Set class to "column-left" or "column-right" on fieldsets to divide the form into columns -->
                         <p>
@@ -126,9 +190,15 @@
                         </p>
                         <p>
                             <label>上传封面</label>
+                            <img id="img_fengmian" style="width: 100px; height: 90px"/>
+                            <input id="hidden_fengmian" name="fengmian" type="hidden" value=""/>
+                            <div id="filePicker1">上传封面</div>
                         </p>
                         <p>
                             <label>上传其他图片</label>
+                            <!-- 存放其他圖片的div -->
+                            <div id="img_other" style="width: 100%; height: 200px; border: black solid 1px"></div>
+                            <div id="filePicker2" style="margin-top: 10px">上传其他图片</div>
                         </p>
                         <p>
                             <label>价格</label> <input
