@@ -8,3 +8,4 @@ mybatis-plus:
   configuration:
     #表示mybatis打印sql语句的方式，将sql语句打印到控制台
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  mapper-locations: classpath:com/qf/dao/mapper/*.xml

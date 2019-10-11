@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qf.dao.GoodsMapper">
+
+    <!-- 关联查询商品信息时的映射关系 -->
+    <resultMap id="MyResultMap" type="com.qf.entity.Goods">
+        <id column="id" property="id"/>
+        <result column="subject" property="subject"/>
+        <result column="info" property="info"/>
+        <result column="price" property="price"/>
+        <result column="save" property="save"/>
+        <result column="create_time" property="createTime"/>
+        <result column="status" property="status"/>
+
+        <!-- 图片对多的处理 -->
+        <collection property="goodsImages" ofType="com.qf.entity.GoodsImage">
+            <id column="giid" property="id"/>
+            <result column="gid" property="gid"/>
+            <result column="url" property="url"/>
+            <result column="info" property="info"/>
+            <result column="isfengmian" property="isfengmian"/>
+        </collection>
+
+    </resultMap>
+
+
+    <select id="queryAllGoods" resultMap="MyResultMap">
+        select *, gi.id as 'giid' from goods g join goods_images gi on g.id = gi.gid
+    </select>
+</mapper>

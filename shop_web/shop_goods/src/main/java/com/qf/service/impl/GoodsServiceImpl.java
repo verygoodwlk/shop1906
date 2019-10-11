@@ -22,7 +22,7 @@ public class GoodsServiceImpl implements IGoodsService {
 
     @Override
     public List<Goods> queryAllGoods() {
-        return goodsMapper.selectList(null);
+        return goodsMapper.queryAllGoods();
     }
 
     @Override

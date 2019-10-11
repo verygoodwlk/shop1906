@@ -27,4 +27,8 @@ public class Goods extends BaseEntity {
     //其他的图片
     @TableField(exist = false)
     private List<String> otherImg;
+
+    //查询是用来存放所有的图片的信息
+    @TableField(exist = false)
+    private List<GoodsImage> goodsImages;
 }

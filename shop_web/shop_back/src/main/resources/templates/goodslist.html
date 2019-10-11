@@ -131,7 +131,9 @@
                         <td><input type="checkbox" /></td>
                         <td th:text="${goods.id}">Lorem ipsum dolor</td>
                         <td th:text="${goods.subject}">Lorem ipsum dolor</td>
-                        <td>图片</td>
+                        <td th:each="image : ${goods.goodsImages}" th:if="${image.isfengmian == 1}">
+                            <img style="width: 100px; height: 90px" th:src="|goodsManager\\showImg?filename=${image.url}|"/>
+                        </td>
                         <td th:text="${#numbers.formatCurrency(goods.price.doubleValue())}">价格</td>
                         <td th:text="${goods.save}">库存</td>
                         <td th:text="${#dates.format(goods.createTime, 'yyyy-MM-dd HH:mm:ss')}">库存</td>
