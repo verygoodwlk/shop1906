@@ -1,0 +1,11 @@
+fdfs:
+  connect-timeout: 1000
+  pool:
+    jmx-enabled: false
+  so-timeout: 1000
+  thumb-image:
+    height: 100
+    width: 100
+  #配置tracker服务器的地址
+  tracker-list:
+    - 192.168.195.129:22122

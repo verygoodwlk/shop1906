@@ -56,7 +56,7 @@
                 var filename = response.filename;
 
                 //设置image显示的图片
-                $("#img_fengmian").attr("src", "goodsManager/showImg?filename=" + filename);
+                $("#img_fengmian").attr("src", filename);
 
                 //設置封面的路徑到隱藏域
                 $("#hidden_fengmian").val(filename);
@@ -84,7 +84,7 @@
                 //通过文件名称，进行图片的回显示
                 var filename = response.filename;
 
-                var html = "<img style='width: 100px; height: 90px; margin: 5px' src='goodsManager/showImg?filename=" + filename + "'/>";
+                var html = "<img style='width: 100px; height: 90px; margin: 5px' src='" + filename + "'/>";
                 html += "<input type='hidden' name='otherImg' value='" + filename + "'/>";
 
                 $("#img_other").append(html);
@@ -132,7 +132,7 @@
                         <td th:text="${goods.id}">Lorem ipsum dolor</td>
                         <td th:text="${goods.subject}">Lorem ipsum dolor</td>
                         <td th:each="image : ${goods.goodsImages}" th:if="${image.isfengmian == 1}">
-                            <img style="width: 100px; height: 90px" th:src="|goodsManager\\showImg?filename=${image.url}|"/>
+                            <img style="width: 100px; height: 90px" th:src="${image.url}"/>
                         </td>
                         <td th:text="${#numbers.formatCurrency(goods.price.doubleValue())}">价格</td>
                         <td th:text="${goods.save}">库存</td>

@@ -1,5 +1,7 @@
 package com.qf.controller;
 
+import com.github.tobato.fastdfs.domain.StorePath;
+import com.github.tobato.fastdfs.service.FastFileStorageClient;
 import com.qf.entity.Goods;
 import com.qf.feign.GoodsFeign;
 import org.apache.commons.io.IOUtils;
@@ -23,6 +25,9 @@ public class GoodsController {
     private GoodsFeign goodsFeign;
 
     private String uploadPath = "D:\\imgs";
+
+    @Autowired
+    private FastFileStorageClient fastFileStorageClient;
 
     /**
      * 获取商品列表
@@ -81,7 +86,20 @@ public class GoodsController {
         outfile = new File(outfile, filename);
 
         //开始上传
-        try (
+        String uploadPath = null;
+        try {
+            StorePath storePath = fastFileStorageClient.uploadImageAndCrtThumbImage(
+                    file.getInputStream(),
+                    file.getSize(),
+                    "JPG",
+                    null);
+
+            uploadPath = storePath.getFullPath();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        /*try (
                 InputStream in = file.getInputStream();
                 OutputStream out = new FileOutputStream(outfile);
         ) {
@@ -91,10 +109,12 @@ public class GoodsController {
 
         } catch (IOException e) {
             e.printStackTrace();
-        }
+        }*/
 
+        uploadPath = "http://192.168.195.129:8080/" + uploadPath;
+        System.out.println("上传后的路径：" + uploadPath);
 
-        return "{\"filename\":\"" + filename + "\"}";
+        return "{\"filename\":\"" + uploadPath + "\"}";
     }
 
 
