@@ -1,0 +1,6 @@
+spring:
+  cloud:
+    config:
+      name: application
+      profile: front,eureka
+      uri: http://localhost:20000

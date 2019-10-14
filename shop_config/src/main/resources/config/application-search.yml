@@ -1,0 +1,8 @@
+server:
+  port: 8084
+spring:
+  application:
+    name: web-search
+  data:
+    solr:
+      host: http://192.168.195.129:8983/solr/mycollection
