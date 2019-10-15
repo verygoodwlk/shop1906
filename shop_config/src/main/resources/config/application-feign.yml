@@ -1,5 +1,13 @@
 feign:
   hystrix:
-    enabled: true
-  httpclient:
-    connection-timeout: 10000
+    enabled: false
+  client:
+    config:
+      default:
+        #连接超时时间
+        connectTimeout: 10000
+        #读取超时时间
+        readTimeout: 10000
+ribbon:
+  # 同一个微服务其他实例的最大重试次数，不包括第一次调用的实例。默认值为1
+  MaxAutoRetriesNextServer: 0

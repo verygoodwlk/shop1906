@@ -4,6 +4,7 @@ import com.qf.dao.GoodsImageMapper;
 import com.qf.dao.GoodsMapper;
 import com.qf.entity.Goods;
 import com.qf.entity.GoodsImage;
+import com.qf.feign.ItemFeign;
 import com.qf.feign.SearchFeign;
 import com.qf.service.IGoodsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,9 @@ public class GoodsServiceImpl implements IGoodsService {
 
     @Autowired
     private SearchFeign searchFeign;
+
+    @Autowired
+    private ItemFeign itemFeign;
 
     @Override
     public List<Goods> queryAllGoods() {
@@ -65,6 +69,9 @@ public class GoodsServiceImpl implements IGoodsService {
             //索引库添加失败
             throw new RuntimeException("索引库添加失败！");
         }
+
+        //调用详情服务生成该商品的静态页面
+        itemFeign.createHtml(goods);
 
         return 1;
     }

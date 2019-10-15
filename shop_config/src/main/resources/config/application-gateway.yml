@@ -18,6 +18,10 @@ spring:
         - uri: lb://web-search
           predicates:
             - Path=/search/**
+        #详情服务的路由规则
+        - uri: lb://web-item
+          predicates:
+            - Path=/item/**,/html/**
         #前台服务的路由规则
         - uri: lb://web-front
           predicates:
