@@ -1,0 +1,5 @@
+feign:
+  hystrix:
+    enabled: true
+  httpclient:
+    connection-timeout: 10000

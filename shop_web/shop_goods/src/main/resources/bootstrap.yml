@@ -2,5 +2,5 @@ spring:
   cloud:
     config:
       name: application
-      profile: eureka,datasource,goods,thymeleaf
+      profile: eureka,datasource,goods,thymeleaf,feign
       uri: http://localhost:20000
