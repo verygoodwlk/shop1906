@@ -16,7 +16,7 @@ public class ItemController {
     private Configuration configuration;
 
     /**
-     * 生成静态页面
+     * 生成静s态t页面
      * @return
      */
     @RequestMapping("/createHtml")
