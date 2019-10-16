@@ -18,7 +18,7 @@ public class GoodsController {
     private IGoodsService goodsService;
 
     /**
-     * 查询所有商品列表
+     * cx查询所有商品列表
      * @return
      */
     @RequestMapping("/list")
