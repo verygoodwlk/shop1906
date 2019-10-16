@@ -8,6 +8,7 @@
         <module>shop_entity</module>
         <module>shop_web</module>
         <module>shop_feign</module>
+        <module>test_rabbitmq</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>
