@@ -1,0 +1,7 @@
+spring:
+  mail:
+    #邮件的smtp服务器地址
+    host: smtp.sina.cn
+    protocol: smtp
+    username: verygoodwlk@sina.cn
+    password: ken123456
