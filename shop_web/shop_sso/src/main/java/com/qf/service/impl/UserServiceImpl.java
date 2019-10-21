@@ -12,7 +12,13 @@ public class UserServiceImpl implements IUserService {
 
     @Autowired
     private UserMapper userMapper;
-    
+
+    /**
+     * null.method();
+     * null.field;
+     * @param user
+     * @return
+     */
     @Override
     public int register(User user) {
 
@@ -32,6 +38,14 @@ public class UserServiceImpl implements IUserService {
 
     @Override
     public User login(String username, String password) {
+
+        User user = this.queryByUserName(username);
+
+        if(user != null && user.getPassword().equals(password)){
+            //登录成功
+            return user;
+        }
+
         return null;
     }
 

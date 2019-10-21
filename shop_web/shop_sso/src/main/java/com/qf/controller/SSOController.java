@@ -6,12 +6,16 @@ import com.qf.entity.User;
 import com.qf.service.IUserService;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -29,6 +33,9 @@ public class SSOController {
 
     @Autowired
     private StringRedisTemplate stringRedisTemplate;
+
+    @Autowired
+    private RedisTemplate redisTemplate;
 
     /**
      * 去到注册页面
@@ -70,6 +77,89 @@ public class SSOController {
         }
 
         return "register";
+    }
+
+    /**
+     * 登录账号
+     * @return
+     */
+    @RequestMapping("/login")
+    public String login(String username, String password, String returnUrl, Model model, HttpServletResponse response){
+
+        //进行登录
+        User user = userService.login(username, password);
+
+        //如果没有调整的url
+        if(returnUrl == null || returnUrl.equals("")){
+            //默认跳转到首页
+            returnUrl = "http://localhost:16666/";
+        }
+
+        if(user != null){
+            //登录成功，将用户信息写入redis
+            String token = UUID.randomUUID().toString();
+            redisTemplate.opsForValue().set(token, user);
+            redisTemplate.expire(token, 7, TimeUnit.DAYS);
+
+            //将uuid写入cookie
+            Cookie cookie = new Cookie("login_token", token);
+            //设置cookie的最大存活时间，如果不设置，默认浏览器关闭就没有了，单位是秒
+            cookie.setMaxAge(60 * 60 * 24 * 7);
+            //将cookie写入浏览器 - Response
+            response.addCookie(cookie);
+
+            //登录成功 - 重定向回首页
+            return "redirect:" + returnUrl;
+        }
+
+        //登录失败
+        return "login";
+    }
+
+    /**
+     * 判断是否登录
+     * @return
+     */
+    @RequestMapping("/isLogin")
+    @ResponseBody
+    public ResultData<User> isLogin(@CookieValue(value = "login_token", required = false) String loginToken){
+        System.out.println("判断是否登录！cookie的value值：" + loginToken);
+
+        //去redis中验证是否登录
+        if(loginToken != null){
+            //去redis中验证是否登录
+            User user = (User) redisTemplate.opsForValue().get(loginToken);
+            //刷新cookie和redis的超时时间
+
+            if(user != null) {
+                //已经登录
+                return new ResultData<User>().setCode("0000").setMsg("已经登录").setData(user);
+            }
+        }
+
+        return new ResultData<User>().setCode("2001").setMsg("未登录");
+    }
+
+    /**
+     * 登录注销
+     * @return
+     */
+    @RequestMapping("/logout")
+    public String logout(@CookieValue(value = "login_token", required = false) String loginToken, HttpServletResponse response){
+
+        if(loginToken != null){
+
+            //删除redis
+            redisTemplate.delete(loginToken);
+
+            //删除cookie
+            Cookie cookie = new Cookie("login_token", loginToken);
+            cookie.setMaxAge(0);//设置为0表示删除该cookie
+            response.addCookie(cookie);
+        }
+
+        //注销完成后跳转到登录页面
+        return "login";
     }
 
     /**
