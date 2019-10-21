@@ -105,6 +105,7 @@ public class SSOController {
             Cookie cookie = new Cookie("login_token", token);
             //设置cookie的最大存活时间，如果不设置，默认浏览器关闭就没有了，单位是秒
             cookie.setMaxAge(60 * 60 * 24 * 7);
+            cookie.setPath("/");
             //将cookie写入浏览器 - Response
             response.addCookie(cookie);
 
