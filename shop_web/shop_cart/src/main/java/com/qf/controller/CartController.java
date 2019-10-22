@@ -6,6 +6,7 @@ import com.qf.entity.User;
 import com.qf.service.ICartService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -103,5 +104,23 @@ public class CartController {
         }
 
         return "redirect:" + returnUrl;
+    }
+
+
+    /**
+     * 跳转到购物车列表页
+     * @return
+     */
+    @IsLogin
+    @RequestMapping("/showlist")
+    public String showList(
+            @CookieValue(value = "cart_token", required = false) String cartToken,
+            User user,
+            Model model
+    ){
+        List<Shopcart> shopcarts = cartService.queryShopCart(cartToken, user);
+        model.addAttribute("shopcarts", shopcarts);
+
+        return "cartlist";
     }
 }

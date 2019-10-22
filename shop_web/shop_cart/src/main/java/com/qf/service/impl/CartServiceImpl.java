@@ -78,10 +78,12 @@ public class CartServiceImpl implements ICartService {
         }
 
         //根据购物车信息查询商品的详细信息
-        for (Shopcart shopcart : shopcarts) {
-            //调用商品服务查询商品的信息
-            Goods goods = goodsFeign.queryById(shopcart.getGid());
-            shopcart.setGoods(goods);
+        if(shopcarts != null) {
+            for (Shopcart shopcart : shopcarts) {
+                //调用商品服务查询商品的信息
+                Goods goods = goodsFeign.queryById(shopcart.getGid());
+                shopcart.setGoods(goods);
+            }
         }
 
         return shopcarts;
