@@ -64,6 +64,12 @@
             <artifactId>shop_commons</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
+
+        <dependency>
+            <groupId>com.qf</groupId>
+            <artifactId>shop_feign</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
     </dependencies>
 
 </project>

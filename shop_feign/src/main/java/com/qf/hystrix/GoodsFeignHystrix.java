@@ -17,4 +17,9 @@ public class GoodsFeignHystrix implements GoodsFeign {
     public boolean goodsInsert(Goods goods) {
         return false;
     }
+
+    @Override
+    public Goods queryById(Integer gid) {
+        return null;
+    }
 }

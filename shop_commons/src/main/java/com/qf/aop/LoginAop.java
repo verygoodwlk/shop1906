@@ -116,7 +116,7 @@ public class LoginAop {
         //获得目标方法的参数
         Object[] args = joinPoint.getArgs();
         for (int i = 0; i < args.length; i++) {
-            if(args[i].getClass() == User.class){
+            if(args[i] != null && args[i].getClass() == User.class){//对象.xxxxx
                 args[i] = user;
                 break;
             }

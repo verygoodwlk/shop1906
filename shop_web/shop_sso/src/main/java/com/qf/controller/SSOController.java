@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -110,7 +112,11 @@ public class SSOController {
             response.addCookie(cookie);
 
             //登录成功 - 重定向回首页
-            return "redirect:" + returnUrl;
+            try {
+                return "redirect:http://localhost:16666/cart/merge?returnUrl=" + URLEncoder.encode(returnUrl, "utf-8");
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
         }
 
         //登录失败
@@ -156,6 +162,7 @@ public class SSOController {
             //删除cookie
             Cookie cookie = new Cookie("login_token", loginToken);
             cookie.setMaxAge(0);//设置为0表示删除该cookie
+            cookie.setPath("/");
             response.addCookie(cookie);
         }
 
