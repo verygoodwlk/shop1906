@@ -31,4 +31,16 @@ public interface ICartService {
      * @return
      */
     int mergeShopCart(String cartToken, User user);
+
+    /**
+     * 根据商品id和用户id去购物车表中查询购物车信息
+     * @param gid
+     * @param uid
+     * @return
+     */
+    List<Shopcart> queryByGid(Integer[] gid, Integer uid);
+
+    List<Shopcart> queryByIds(Integer[] ids);
+
+    int deleteByIds(Integer[] ids);
 }

@@ -90,7 +90,7 @@ public class LoginAop {
                 //获得当前的url
                 //url -> http://localhost:16666/sso/login?keyword=xxxx
                 //uri -> /sso/login
-                String url = request.getRequestURL().toString();
+                String url = "http://localhost:16666" + request.getRequestURI().toString();
 
                 //获得url后面的参数 keyword=xxx&key=xxxx&name=xxxx
                 String queryString = request.getQueryString();

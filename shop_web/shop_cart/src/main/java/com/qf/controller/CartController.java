@@ -7,9 +7,7 @@ import com.qf.service.ICartService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.CookieValue;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
@@ -122,5 +120,38 @@ public class CartController {
         model.addAttribute("shopcarts", shopcarts);
 
         return "cartlist";
+    }
+
+
+    /**
+     * 根据商品id查询购物车信息
+     * @return
+     */
+    @RequestMapping("/queryByGid")
+    @ResponseBody
+    public List<Shopcart> queryByGid(@RequestParam("gid") Integer[] gid, @RequestParam("uid") Integer uid){
+        return cartService.queryByGid(gid, uid);
+    }
+
+    /**
+     * 根据购物车的id数组查询购物车列表
+     * @param ids
+     * @return
+     */
+    @RequestMapping("/queryByIds")
+    @ResponseBody
+    public List<Shopcart> queryByIds(@RequestParam("ids") Integer[] ids){
+        return cartService.queryByIds(ids);
+    }
+
+    /**
+     * 根据购物车id列表删除购物车信息
+     * @param ids
+     * @return
+     */
+    @RequestMapping("/deleteByIds")
+    @ResponseBody
+    public boolean deleteByIds(@RequestParam("ids") Integer[] ids){
+        return cartService.deleteByIds(ids) > 0;
     }
 }
