@@ -33,7 +33,7 @@ spring:
         #订单服务的路由规则
         - uri: lb://web-order
           predicates:
-            - Path=/order/**,/address/**
+            - Path=/order/**,/address/**,/pay/**
         #前台服务的路由规则
         - uri: lb://web-front
           predicates:

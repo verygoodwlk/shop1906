@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface IOrderService {
 
-    int insertOrder(Integer aid, Integer[] cartsid, Integer uid);
+    Orders insertOrder(Integer aid, Integer[] cartsid, Integer uid);
 
     List<Orders> queryByUid(Integer uid);
 

@@ -78,9 +78,9 @@ public class OrderController {
     @RequestMapping("/insert")
     public String orderInsert(Integer aid, Integer[] cartids, User user){
 
-        orderService.insertOrder(aid, cartids, user.getId());
+        Orders orders = orderService.insertOrder(aid, cartids, user.getId());
 
-        //去支付
-        return "pay";
+        //去支付 -> 跳转到支付服务 -> 支付选择页面
+        return "redirect:http://localhost:16666/pay/alipay?oid=" + orders.getId();
     }
 }

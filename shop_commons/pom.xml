@@ -41,6 +41,12 @@
             <version>5.2.0.RELEASE</version>
             <scope>provided</scope>
         </dependency>
+
+        <dependency>
+            <groupId>com.alipay.sdk</groupId>
+            <artifactId>alipay-sdk-java</artifactId>
+            <version>4.8.10.ALL</version>
+        </dependency>
     </dependencies>
 
 </project>

@@ -38,7 +38,7 @@ public class OrderServiceImpl implements IOrderService {
 
     @Override
     @Transactional
-    public int insertOrder(Integer aid, Integer[] cartsid, Integer uid) {
+    public Orders insertOrder(Integer aid, Integer[] cartsid, Integer uid) {
 
         //通过aid找到收货地址信息
         Address address = addressService.queryById(aid);
@@ -80,7 +80,7 @@ public class OrderServiceImpl implements IOrderService {
         //删除购物车
         cartFeign.deleteByIds(cartsid);
 
-        return 1;
+        return orders;
     }
 
     @Override
@@ -88,6 +88,7 @@ public class OrderServiceImpl implements IOrderService {
         //根据用户id查询所有订单
         QueryWrapper queryWrapper = new QueryWrapper();
         queryWrapper.eq("uid", uid);
+        queryWrapper.orderByDesc("create_time");
         List<Orders> list = ordersMapper.selectList(queryWrapper);
 
         //根据订单查询订单详情
@@ -110,11 +111,13 @@ public class OrderServiceImpl implements IOrderService {
 
     @Override
     public Orders queryById(Integer oid) {
-        return null;
+        return ordersMapper.selectById(oid);
     }
 
     @Override
     public Orders queryByOrderId(String orderid) {
-        return null;
+        QueryWrapper queryWrapper = new QueryWrapper();
+        queryWrapper.eq("orderid", orderid);
+        return ordersMapper.selectOne(queryWrapper);
     }
 }
