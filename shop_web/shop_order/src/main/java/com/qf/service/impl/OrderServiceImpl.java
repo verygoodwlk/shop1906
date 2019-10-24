@@ -120,4 +120,12 @@ public class OrderServiceImpl implements IOrderService {
         queryWrapper.eq("orderid", orderid);
         return ordersMapper.selectOne(queryWrapper);
     }
+
+    @Override
+    public int updateOrderState(String orderid, Integer status) {
+
+        Orders orders = this.queryByOrderId(orderid);
+        orders.setStatus(status);
+        return ordersMapper.updateById(orders);
+    }
 }
