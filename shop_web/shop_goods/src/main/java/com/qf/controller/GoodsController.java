@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/goods")
@@ -50,5 +51,16 @@ public class GoodsController {
     @ResponseBody
     public Goods queryById(@RequestParam("gid") Integer gid){
         return goodsService.queryById(gid);
+    }
+
+    /**
+     * 查询当前场的秒杀信息列表
+     * @return
+     */
+    @RequestMapping("/queryByTime")
+    @ResponseBody
+    public List<Map<String, Object>> queryMiaoshaByTime(){
+        List<Map<String, Object>> maps = goodsService.queryMiaoshaByTime();
+        return maps;
     }
 }

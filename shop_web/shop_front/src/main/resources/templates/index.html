@@ -15,6 +15,89 @@
 
     <script type="text/javascript" src="js/login.js" ></script>
     <script type="text/javascript" src="js/shopcart.js" ></script>
+
+    <script>
+        //进入页面加载秒杀的商品信息
+        $(function(){
+
+            $.ajax({
+                type: "GET",
+                url: "http://localhost:16666/miaosha/queryByTime",
+                success:function(data){
+                    //展示商品信息
+                    var nowData = data[0];
+                    var nextData = data[1];
+
+                    //处理时间段
+                    timeShow(nowData, 1);
+                    timeShow(nextData, 2);
+
+                    //展示秒杀数据
+                    goodsShow(nowData, 1);
+                    goodsShow(nextData, 2);
+
+                },
+                dataType: "json"
+            });
+
+        });
+
+
+        //秒杀时间段的展示
+        function timeShow(data, flag){
+            var nowStart = new Date(data.startTime);
+            var nowEnd = new Date(data.endTime);
+            var html = "";
+            html += formatTime(nowStart.getHours()) + ":" + formatTime(nowStart.getMinutes()) + ":" + formatTime(nowStart.getSeconds());
+            html += " ~ ";
+            html += formatTime(nowEnd.getHours()) + ":" + formatTime(nowEnd.getMinutes()) + ":" + formatTime(nowEnd.getSeconds());
+
+            if(flag == 1){
+                //表示当前时间
+                $("#nowtime").html(html);
+            } else {
+                $("#nexttime").html(html);
+            }
+        }
+
+        //秒杀数据的展示
+        function goodsShow(data, flag){
+            //获得商品列表
+            var goods = data.goods;
+
+            //循环处理商品列表
+            var html = "";
+            for(var i = 0; i < goods.length; i++){
+                html += '<li>\n' +
+                    '<dl>\n' +
+                    '<dt><a><img style="width: 160px; height: 120px;" src="' + goods[i].fengmian + '" /></a></dt>\n' +
+                    '<dd><a>' + goods[i].subject + '</a></dd>\n' +
+                    '<dd> 商城价：<em><del>' + goods[i].price + '</del></em>元</dd>\n' +
+                    '<dd> 秒杀价：<em>' + goods[i].goodsMiaosha.miaoshaPrice + '</em>元</dd>\n' +
+                    '</dl>\n' +
+                    '</li>';
+            }
+
+            if(flag == 1){
+                //正在秒杀
+                $("#now_ul").html(html);
+            } else {
+                //下个时间段
+                $("#next_ul").html(html);
+            }
+
+        }
+
+        //处理时间格式，保证显示两位数
+        function formatTime(ele){
+            if(ele < 10){
+                return "0" + ele;
+            }
+            return ele;
+        }
+
+    </script>
+
 </head>
 <body>
 <!-- Header  -wll-2013/03/24 -->
@@ -585,119 +668,39 @@
     <div class="clear"></div>
     <!-- 第一块区域 End -->
 
-    <!-- 第二块区域 -->
+    <!-- TODO 秒杀列表展示 -->
     <div class="shop_bd_2 clearfix">
         <!-- 特别推荐 -->
         <div class="shop_bd_tuijian">
             <ul class="tuijian_tabs">
-                <li class="hover"  onmouseover="easytabs('1', '1');" onfocus="easytabs('1', '1');" onclick="return false;" id="tuijian_content_btn_1"><a href="javascript:void(0);">特别推荐</a></li>
-                <li onmouseover="easytabs('1', '2');" onfocus="easytabs('1', '2');" onclick="return false;" id="tuijian_content_btn_2" ><a href="javascript:void(0);">热门商品</a></li>
-                <li onmouseover="easytabs('1', '3');" onfocus="easytabs('1', '3');" onclick="return false;" id="tuijian_content_btn_3"><a href="javascript:void(0);">新品上架</a></li>
+                <li class="hover"  onmouseover="easytabs('1', '1');" onfocus="easytabs('1', '1');" onclick="return false;" id="tuijian_content_btn_1">
+                    <a href="javascript:void(0);"><span id="nowtime">00:00:00~00:00:00</span>(正在秒杀)</a>
+                </li>
+                <li onmouseover="easytabs('1', '2');" onfocus="easytabs('1', '2');" onclick="return false;" id="tuijian_content_btn_2" >
+                    <a href="javascript:void(0);"><span id="nexttime">00:00:00~00:00:00</span>(即将开始)</a>
+                </li>
+                <li style="display: none;" onmouseover="easytabs('1', '3');" onfocus="easytabs('1', '3');" onclick="return false;" id="tuijian_content_btn_3">
+                    <a href="javascript:void(0);">新品上架</a>
+                </li>
             </ul>
             <div class="tuijian_content">
                 <div id="tuijian_content_1" class="tuijian_shangpin" style="display: block;">
-                    <ul>
-                        <li>
-                            <dl>
-                                <dt><a><img src="images/365_7d5e08127b8d6799209674ecffbfc624.jpg_small.jpg" /></a></dt>
-                                <dd><a>11111111棉布艺双人沙发垫沙发巾飘窗垫素雅黄花</a></dd>
-                                <dd> 商城价：<em>256.00</em>元</dd>
-                            </dl>
-                        </li>
-                        <li>
-                            <dl>
-                                <dt><a><img src="images/365_7d5e08127b8d6799209674ecffbfc624.jpg_small.jpg" /></a></dt>
-                                <dd><a>外贸田园绗缝全棉布艺双人沙发垫沙发巾飘窗垫素雅黄花</a></dd>
-                                <dd> 商城价：<em>256.00</em>元</dd>
-                            </dl>
-                        </li>
-
-                        <li>
-                            <dl>
-                                <dt><a><img src="images/365_7d5e08127b8d6799209674ecffbfc624.jpg_small.jpg" /></a></dt>
-                                <dd><a>外贸田园绗缝全棉布艺双人沙发垫沙发巾飘窗垫素雅黄花</a></dd>
-                                <dd> 商城价：<em>256.00</em>元</dd>
-                            </dl>
-                        </li>
-
-                        <li>
-                            <dl>
-                                <dt><a><img src="images/365_7d5e08127b8d6799209674ecffbfc624.jpg_small.jpg" /></a></dt>
-                                <dd><a>外贸田园绗缝全棉布艺双人沙发垫沙发巾飘窗垫素雅黄花</a></dd>
-                                <dd> 商城价：<em>256.00</em>元</dd>
-                            </dl>
-                        </li>
+                    <!-- 正在秒杀的商品列表 -->
+                    <ul id="now_ul">
 
                     </ul>
                 </div>
 
                 <div id="tuijian_content_2" class="tuijian_shangpin">
-                    <ul>
-                        <li>
-                            <dl>
-                                <dt><a><img src="images/365_7d5e08127b8d6799209674ecffbfc624.jpg_small.jpg" /></a></dt>
-                                <dd><a>2222222棉布艺双人沙发垫沙发巾飘窗垫素雅黄花</a></dd>
-                                <dd> 商城价：<em>256.00</em>元</dd>
-                            </dl>
-                        </li>
-                        <li>
-                            <dl>
-                                <dt><a><img src="images/365_7d5e08127b8d6799209674ecffbfc624.jpg_small.jpg" /></a></dt>
-                                <dd><a>外贸田园绗缝全棉布艺双人沙发垫沙发巾飘窗垫素雅黄花</a></dd>
-                                <dd> 商城价：<em>256.00</em>元</dd>
-                            </dl>
-                        </li>
 
-                        <li>
-                            <dl>
-                                <dt><a><img src="images/365_7d5e08127b8d6799209674ecffbfc624.jpg_small.jpg" /></a></dt>
-                                <dd><a>外贸田园绗缝全棉布艺双人沙发垫沙发巾飘窗垫素雅黄花</a></dd>
-                                <dd> 商城价：<em>256.00</em>元</dd>
-                            </dl>
-                        </li>
-
-                        <li>
-                            <dl>
-                                <dt><a><img src="images/365_7d5e08127b8d6799209674ecffbfc624.jpg_small.jpg" /></a></dt>
-                                <dd><a>外贸田园绗缝全棉布艺双人沙发垫沙发巾飘窗垫素雅黄花</a></dd>
-                                <dd> 商城价：<em>256.00</em>元</dd>
-                            </dl>
-                        </li>
+                    <!-- 下个时间段秒杀的商品列表 -->
+                    <ul id="next_ul">
 
                     </ul>
                 </div>
+
                 <div id="tuijian_content_3" class="tuijian_shangpin tuijian_content">
                     <ul>
-                        <li>
-                            <dl>
-                                <dt><a><img src="images/365_7d5e08127b8d6799209674ecffbfc624.jpg_small.jpg" /></a></dt>
-                                <dd><a>3333333全棉布艺双人沙发垫沙发巾飘窗垫素雅黄花</a></dd>
-                                <dd> 商城价：<em>256.00</em>元</dd>
-                            </dl>
-                        </li>
-                        <li>
-                            <dl>
-                                <dt><a><img src="images/365_7d5e08127b8d6799209674ecffbfc624.jpg_small.jpg" /></a></dt>
-                                <dd><a>外贸田园绗缝全棉布艺双人沙发垫沙发巾飘窗垫素雅黄花</a></dd>
-                                <dd> 商城价：<em>256.00</em>元</dd>
-                            </dl>
-                        </li>
-
-                        <li>
-                            <dl>
-                                <dt><a><img src="images/365_7d5e08127b8d6799209674ecffbfc624.jpg_small.jpg" /></a></dt>
-                                <dd><a>外贸田园绗缝全棉布艺双人沙发垫沙发巾飘窗垫素雅黄花</a></dd>
-                                <dd> 商城价：<em>256.00</em>元</dd>
-                            </dl>
-                        </li>
-
-                        <li>
-                            <dl>
-                                <dt><a><img src="images/365_7d5e08127b8d6799209674ecffbfc624.jpg_small.jpg" /></a></dt>
-                                <dd><a>外贸田园绗缝全棉布艺双人沙发垫沙发巾飘窗垫素雅黄花</a></dd>
-                                <dd> 商城价：<em>256.00</em>元</dd>
-                            </dl>
-                        </li>
 
                     </ul>
                 </div>

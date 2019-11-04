@@ -19,6 +19,7 @@ public class Goods extends BaseEntity {
     private String info;
     private BigDecimal price;
     private Integer save;
+    private Integer type;//商品类型 1 - 普通商品 2 - 秒杀商品
 
     //封面
     @TableField(exist = false)
@@ -31,4 +32,8 @@ public class Goods extends BaseEntity {
     //查询是用来存放所有的图片的信息
     @TableField(exist = false)
     private List<GoodsImage> goodsImages;
+
+    //商品对应的秒杀信息
+    @TableField(exist = false)
+    private GoodsMiaosha goodsMiaosha;
 }

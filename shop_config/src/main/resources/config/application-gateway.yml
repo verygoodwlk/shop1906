@@ -34,6 +34,10 @@ spring:
         - uri: lb://web-order
           predicates:
             - Path=/order/**,/address/**,/pay/**
+        #秒杀服务的路由规则
+        - uri: lb://web-miaosha
+          predicates:
+            - Path=/miaosha/**
         #前台服务的路由规则
         - uri: lb://web-front
           predicates:

@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
+import java.util.Map;
 
 @FeignClient(value = "web-goods", fallback = GoodsFeignHystrix.class)
 public interface GoodsFeign {
@@ -20,4 +21,7 @@ public interface GoodsFeign {
 
     @RequestMapping("/goods/queryById")
     Goods queryById(@RequestParam("gid") Integer gid);
+
+    @RequestMapping("/goods/queryByTime")
+    List<Map<String, Object>> queryMiaoshaByTime();
 }

@@ -32,6 +32,10 @@
     <script type="text/javascript"
             src="resources/widget/webuploader/webuploader.min.js"></script>
 
+    <!-- 引入日期控件 -->
+    <script type="text/javascript"
+            src="/back/resources/widget/My97DatePicker/WdatePicker.js"></script>
+
     <script>
         /**
          * 页面加载好后初始化
@@ -176,6 +180,26 @@
 </div>
 <!-- End #main-content -->
 
+<style>
+    .miaoshaclass{
+        display: none;
+    }
+</style>
+
+<script>
+    //选择商品类型
+    function select_type(type){
+        if (type == 1){
+            //普通商品
+            $(".miaoshaclass").css("display", "none");
+        } else {
+            //秒杀商品
+            $(".miaoshaclass").css("display", "block");
+        }
+    }
+</script>
+
+
 <!-- 弹出框的内容，默认隐藏的 -->
 <div id="goodsadd_div" style="display: none;">
     <div class="content-box">
@@ -186,9 +210,22 @@
                     <fieldset>
                         <!-- Set class to "column-left" or "column-right" on fieldsets to divide the form into columns -->
                         <p>
+                            <label>商品类型</label>
+                            <input name="type" type="radio" value="1" onclick="select_type(1);" checked/>普通商品
+                            <input name="type" type="radio" value="2" onclick="select_type(2);"/>秒杀商品
+                        </p>
+                        <p>
                             <label>商品标题</label> <input
-                                class="text-input medium-input" type="text" id="subject"
+                                class="text-input medium-input" type="text"
                                 name="subject" />
+                        </p>
+                        <p class="miaoshaclass">
+                            <label style="color: red">*秒杀开始时间</label> <input
+                                class="text-input medium-input" type="text" name="startTime" onClick="WdatePicker({startDate:'%y-%M-%d {%H+1}:00:00', dateFmt:'yyyy-MM-dd HH:mm:ss', minDate:'%y-%M-%d %H-%m-%s}'})"/>
+                        </p>
+                        <p class="miaoshaclass">
+                            <label style="color: red">*秒杀结束时间</label> <input
+                                class="text-input medium-input" type="text" name="endTime" onClick="WdatePicker({startDate:'%y-%M-%d {%H+1}:00:00', dateFmt:'yyyy-MM-dd HH:mm:ss', minDate:'%y-%M-%d %H-%m-%s}'})"/>
                         </p>
                         <p>
                             <label>上传封面</label>
@@ -207,10 +244,18 @@
                                 class="text-input small-input" type="text" id="price"
                                 name="price" />
                         </p>
+                        <p class="miaoshaclass">
+                            <label style="color: red">*秒杀价格</label> <input
+                                class="text-input medium-input" type="text" name="miaoshaPrice" />
+                        </p>
                         <p>
                             <label>库存</label> <input
                                 class="text-input small-input" type="text" id="save"
                                 name="save" />
+                        </p>
+                        <p class="miaoshaclass">
+                            <label style="color: red">*秒杀库存</label> <input
+                                class="text-input medium-input" type="text" name="miaoshaSave" />
                         </p>
                         <p>
                             <label>商品详情介绍</label>

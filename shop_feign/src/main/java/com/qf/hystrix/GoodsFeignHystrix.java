@@ -5,6 +5,7 @@ import com.qf.feign.GoodsFeign;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Map;
 
 @Component
 public class GoodsFeignHystrix implements GoodsFeign {
@@ -20,6 +21,11 @@ public class GoodsFeignHystrix implements GoodsFeign {
 
     @Override
     public Goods queryById(Integer gid) {
+        return null;
+    }
+
+    @Override
+    public List<Map<String, Object>> queryMiaoshaByTime() {
         return null;
     }
 }

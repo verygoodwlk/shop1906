@@ -2,6 +2,6 @@ spring:
   cloud:
     config:
       name: application
-      profile: eureka,datasource,goods,thymeleaf,feign,rabbitmq
+      profile: eureka,datasource,goods,thymeleaf,feign,rabbitmq,redis
       uri: http://localhost:20000
 

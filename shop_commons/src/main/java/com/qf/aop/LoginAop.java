@@ -34,6 +34,8 @@ public class LoginAop {
     @Autowired
     private RedisTemplate redisTemplate;
 
+//    private static ThreadLocal<User> userThreadLocal = new ThreadLocal<>();
+
     /**
      * 环绕增强
      *
@@ -112,6 +114,9 @@ public class LoginAop {
             }
         }
 
+        //将user对象放入threadlocal
+//        userThreadLocal.set(user);
+
         //---------4、替换目标方法中user参数----------
         //获得目标方法的参数
         Object[] args = joinPoint.getArgs();
@@ -133,5 +138,9 @@ public class LoginAop {
 
         return result;
     }
+
+//    public static User getLoginUser(){
+//        return userThreadLocal.get();
+//    }
 
 }
