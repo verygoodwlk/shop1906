@@ -3,4 +3,4 @@ spring:
     config:
       uri: http://localhost:20000
       name: application
-      profile: miaosha,eureka,feign
+      profile: miaosha,eureka,feign,rabbitmq,redis

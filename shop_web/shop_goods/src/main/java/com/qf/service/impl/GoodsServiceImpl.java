@@ -10,11 +10,13 @@ import com.qf.entity.GoodsMiaosha;
 import com.qf.feign.ItemFeign;
 import com.qf.feign.SearchFeign;
 import com.qf.service.IGoodsService;
+import com.qf.util.ContactUtil;
 import com.qf.util.TimeUtil;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -43,6 +45,9 @@ public class GoodsServiceImpl implements IGoodsService {
 
     @Autowired
     private RabbitTemplate rabbitTemplate;
+
+    @Autowired
+    private StringRedisTemplate stringRedisTemplate;
 
     @Override
     public List<Goods> queryAllGoods() {
@@ -89,10 +94,20 @@ public class GoodsServiceImpl implements IGoodsService {
 
             //保存秒杀信息
             goodsMiaoshaMapper.insert(miaosha);
+
+            //如果是秒杀商品，将信息保存到redis中
+
+            //计算评分
+            double score = TimeUtil.date2Score(goods.getGoodsMiaosha().getStartTime());
+
+            //将商品信息保存到redis中
+            stringRedisTemplate.opsForZSet().add(
+                    ContactUtil.REDIS_MIAOSHA_SORT_SET, goods.getId() + "", score);
+
         }
 
         //将goods对象发送到指定的交换机中
-        rabbitTemplate.convertAndSend("goods_exchange", "", goods);
+        rabbitTemplate.convertAndSend("goods_exchange", goods.getType() == 1 ? "normal" : "miaosha", goods);
 
         return 1;
     }

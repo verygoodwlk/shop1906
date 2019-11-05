@@ -15,31 +15,29 @@ import java.io.Writer;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * RabbitMQ消息的监听类
- */
 @Component
-public class RabbitMqListener {
+public class RabbitMQListener {
 
     @Autowired
     private Configuration configuration;
 
-    @RabbitListener(bindings = @QueueBinding(
-            value = @Queue(name = "item_queue", durable = "true"),
-            exchange = @Exchange(name = "goods_exchange", durable = "true", type = "direct"),
-            key = "normal"))
-    public void goodsMsgHandler(Goods goods){
-        System.out.println("详情服务接收到RabbitMQ的消息！，生成静态页");
+    @RabbitListener(
+            bindings = @QueueBinding(
+                    exchange = @Exchange(name = "goods_exchange", type = "direct", durable = "true"),
+                    value = @Queue("miaosha_queue"),
+                    key = "miaosha"))
+    public void msgHandler(Goods goods){
+        System.out.println("秒杀服务收到生成秒杀静态页的消息：" + goods);
 
         //准备一个输入路径
         //获得classpath路径
-        String path = RabbitMqListener.class.getResource("/static/html").getPath();
+        String path = RabbitMQListener.class.getResource("/static/miaosha").getPath();
 
         //通过freemarker生成静态页面
         try(
                 Writer writer = new FileWriter(path + "/" + goods.getId() + ".html");
         ) {
-            Template template = configuration.getTemplate("goods.ftl");
+            Template template = configuration.getTemplate("miaosha.ftl");
 
             //准备数据
             Map<String, Object> map = new HashMap<>();

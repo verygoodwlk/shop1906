@@ -1,5 +1,6 @@
 package com.qf.util;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -30,4 +31,15 @@ public class TimeUtil {
         return calendar.getTime();
     }
 
+
+    /**
+     * 根据时间计算出评分
+     *
+     * @return
+     */
+    public static double date2Score(Date date){
+        SimpleDateFormat sdf = new SimpleDateFormat("MMddHH");
+        String format = sdf.format(date);
+        return Double.valueOf(format);
+    }
 }

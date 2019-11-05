@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -36,5 +37,15 @@ public class MiaoshaController {
     public List<Map<String, Object>> queryNowMiaosha(){
         List<Map<String, Object>> maps = goodsFeign.queryMiaoshaByTime();
         return maps;
+    }
+
+    /**
+     * 获得服务器的当前时间
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("/getNow")
+    public Date getNow(){
+        return new Date();
     }
 }
