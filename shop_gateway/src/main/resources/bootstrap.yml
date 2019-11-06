@@ -2,5 +2,5 @@ spring:
   cloud:
     config:
       name: application
-      profile: gateway,eureka
+      profile: gateway,eureka,redis
       uri: http://localhost:20000

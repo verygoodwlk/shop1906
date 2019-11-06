@@ -15,4 +15,8 @@ public interface ContactUtil {
      */
     String REDIS_MIAOSHA_START_SET = "miaosha_start";
 
+    /**
+     * 当前秒杀开始的时间后缀
+     */
+    String REDIS_MIAOSHA_TIME_PROFIX = "time_profix";
 }

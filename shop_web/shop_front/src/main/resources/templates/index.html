@@ -70,7 +70,7 @@
             for(var i = 0; i < goods.length; i++){
                 html += '<li>\n' +
                     '<dl>\n' +
-                    '<dt><a><img style="width: 160px; height: 120px;" src="' + goods[i].fengmian + '" /></a></dt>\n' +
+                    '<dt><a href="/miaosha/' + goods[i].id + '.html"><img style="width: 160px; height: 120px;" src="' + goods[i].fengmian + '" /></a></dt>\n' +
                     '<dd><a>' + goods[i].subject + '</a></dd>\n' +
                     '<dd> 商城价：<em><del>' + goods[i].price + '</del></em>元</dd>\n' +
                     '<dd> 秒杀价：<em>' + goods[i].goodsMiaosha.miaoshaPrice + '</em>元</dd>\n' +

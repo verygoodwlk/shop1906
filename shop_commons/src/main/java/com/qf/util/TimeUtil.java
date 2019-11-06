@@ -33,13 +33,13 @@ public class TimeUtil {
 
 
     /**
-     * 根据时间计算出评分
+     * 根据时间计算出当前整点对应的时间字符串
      *
      * @return
      */
-    public static double date2Score(Date date){
-        SimpleDateFormat sdf = new SimpleDateFormat("MMddHH");
+    public static String date2Score(Date date){
+        SimpleDateFormat sdf = new SimpleDateFormat("yyMMddHH");
         String format = sdf.format(date);
-        return Double.valueOf(format);
+        return format;
     }
 }
