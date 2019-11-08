@@ -8,6 +8,8 @@ public interface IOrderService {
 
     Orders insertOrder(Integer aid, Integer[] cartsid, Integer uid);
 
+    Orders insertMiaoshaOrder(Integer uid, Integer gid, String orderid);
+
     List<Orders> queryByUid(Integer uid);
 
     Orders queryById(Integer oid);

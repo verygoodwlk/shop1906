@@ -97,11 +97,16 @@ public class GoodsServiceImpl implements IGoodsService {
 
             //如果是秒杀商品，将信息保存到redis中
 
+            //-----------------防止商品提前下单------------------
             //计算集合后缀
             String profix = TimeUtil.date2Score(goods.getGoodsMiaosha().getStartTime());
             //将商品信息保存到redis中
             //miaosha_start_19110609: 68,70.....
             stringRedisTemplate.opsForSet().add(ContactUtil.REDIS_MIAOSHA_START_SET + "_" + profix, goods.getId() + "");
+
+            //-----------------为了后续库存扣减做准备-------------
+            //将商品的库存信息同步到redis中
+            stringRedisTemplate.opsForValue().set(ContactUtil.REDIS_MIAOSHA_SAVE + "_" + goods.getId(), goods.getGoodsMiaosha().getMiaoshaSave() + "");
         }
 
         //将goods对象发送到指定的交换机中
@@ -123,6 +128,11 @@ public class GoodsServiceImpl implements IGoodsService {
         //设置封面
         goods.setFengmian(goodsImage.getUrl());
 
+        //查询秒杀信息
+        QueryWrapper queryWrapper1 = new QueryWrapper();
+        queryWrapper1.eq("gid", gid);
+        GoodsMiaosha goodsMiaosha = goodsMiaoshaMapper.selectOne(queryWrapper1);
+        goods.setGoodsMiaosha(goodsMiaosha);
         return goods;
     }
 
@@ -173,5 +183,10 @@ public class GoodsServiceImpl implements IGoodsService {
         miaoshaList.add(nextMap);
 
         return miaoshaList;
+    }
+
+    @Override
+    public int jianSave(Integer gid) {
+        return goodsMapper.jianSave(gid);
     }
 }

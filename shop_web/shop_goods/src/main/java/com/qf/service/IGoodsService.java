@@ -14,4 +14,6 @@ public interface IGoodsService {
     Goods queryById(Integer gid);
 
     List<Map<String, Object>> queryMiaoshaByTime();
+
+    int jianSave(Integer gid);
 }

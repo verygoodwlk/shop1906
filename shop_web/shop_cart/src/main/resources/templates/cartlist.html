@@ -61,7 +61,7 @@
                     <li>
                         <!-- TODO 购物车展示列表 -->
                         <div class="topNav_menu">
-                            <a href="http://localhost:16666/cart/showlist" class="topNavHover">购物车<b id="cartnumberid">0</b>种商品<i></i></a>
+                            <a href="/cart/showlist" class="topNavHover">购物车<b id="cartnumberid">0</b>种商品<i></i></a>
                             <div id="cartid" class="topNav_menu_bd" style="display:none;width: 300px; height: 400px">
 
                             </div>
@@ -502,7 +502,7 @@
     <!-- 购物车为空 -->
     <div th:if="${shopcarts == null || #lists.size(shopcarts) == 0}" class="empty_cart mb10">
         <div class="message">
-            <p>购物车内暂时没有商品，您可以<a href="http://localhost:16666/">去首页</a>挑选喜欢的商品</p>
+            <p>购物车内暂时没有商品，您可以<a href="/">去首页</a>挑选喜欢的商品</p>
         </div>
     </div>
     <!-- 购物车为空 end-->
@@ -561,7 +561,7 @@
         </script>
 
         <!-- 购物车列表 -->
-        <form id="formid" action="http://localhost:16666/order/edit" method="get">
+        <form id="formid" action="/order/edit" method="get">
         <table>
             <thead>
             <tr>

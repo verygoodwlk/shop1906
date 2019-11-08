@@ -83,6 +83,48 @@ public class OrderServiceImpl implements IOrderService {
         return orders;
     }
 
+    /**
+     * 添加秒杀订单
+     * @param uid
+     * @param gid
+     * @return
+     */
+    @Override
+    @Transactional
+    public Orders insertMiaoshaOrder(Integer uid, Integer gid, String orderid) {
+
+        //根据gid查询商品信息
+        Goods goods = goodsFeign.queryById(gid);
+
+        Orders orders = new Orders(
+                orderid,
+                uid,
+                null,
+                null,
+                null,
+                null,
+                goods.getGoodsMiaosha().getMiaoshaPrice(),
+                null
+        );
+
+        ordersMapper.insert(orders);
+
+        //创建订单详情页
+        OrderDetils orderDetils = new OrderDetils(
+                orders.getId(),
+                gid,
+                goods.getSubject(),
+                goods.getGoodsMiaosha().getMiaoshaPrice(),
+                1,
+                goods.getGoodsMiaosha().getMiaoshaPrice(),
+                goods
+        );
+
+        orderDetilMapper.insert(orderDetils);
+
+        return orders;
+    }
+
     @Override
     public List<Orders> queryByUid(Integer uid) {
         //根据用户id查询所有订单

@@ -2,7 +2,7 @@ $(function(){
     //调用ajax查询所有的购物车信息
     $.ajax({
         type: "POST",
-        url: "http://localhost:16666/cart/list",
+        url: "/cart/list",
         success: function(data){
 
             if(data != null && data.length > 0){

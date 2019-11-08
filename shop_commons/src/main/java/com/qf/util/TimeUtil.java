@@ -42,4 +42,10 @@ public class TimeUtil {
         String format = sdf.format(date);
         return format;
     }
+
+    public static String date2Socre2(Date date){
+        SimpleDateFormat sdf = new SimpleDateFormat("HHmmssSSS");
+        String format = sdf.format(date);
+        return format;
+    }
 }

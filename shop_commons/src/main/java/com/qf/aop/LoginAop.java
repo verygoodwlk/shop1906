@@ -92,7 +92,7 @@ public class LoginAop {
                 //获得当前的url
                 //url -> http://localhost:16666/sso/login?keyword=xxxx
                 //uri -> /sso/login
-                String url = "http://localhost:16666" + request.getRequestURI().toString();
+                String url = "http://10.36.139.111:16666" + request.getRequestURI().toString();
 
                 //获得url后面的参数 keyword=xxx&key=xxxx&name=xxxx
                 String queryString = request.getQueryString();
@@ -110,7 +110,7 @@ public class LoginAop {
                 }
 
                 //强制登录
-                return "redirect:http://localhost:16666/sso/toLogin?returnUrl=" + url;
+                return "redirect:/sso/toLogin?returnUrl=" + url;
             }
         }
 

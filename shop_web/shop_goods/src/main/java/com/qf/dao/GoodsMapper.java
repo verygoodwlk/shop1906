@@ -13,4 +13,10 @@ public interface GoodsMapper extends BaseMapper<Goods> {
      */
     List<Goods> queryAllGoods();
 
+    /**
+     * 减商品库存
+     * @return
+     */
+    int jianSave(Integer gid);
+
 }

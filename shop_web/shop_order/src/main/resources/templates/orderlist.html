@@ -562,7 +562,7 @@
                             <td class="digndan_caozuo" th:if="${orderDetilsState.first}" th:rowspan="${#lists.size(orders.orderDetils)}" th:switch="${orders.status}">
                                 <a th:case="0">
                                     待支付<br/><br/>
-                                    <button th:onclick="|javascript:location.href='http://localhost:16666/pay/alipay?oid=${orders.id}'|">去支付</button>
+                                    <button th:onclick="|javascript:location.href='/pay/alipay?oid=${orders.orderid}'|">去支付</button>
                                 </a>
                                 <a th:case="1">已支付</a>
                                 <a th:case="2">待收货</a>

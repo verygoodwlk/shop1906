@@ -632,7 +632,7 @@
             var gnumber = $("#good_nums").val();
 
             //加入购物车
-            location.href = "http://localhost:16666/cart/insert?gid=" + gid + "&gnumber=" + gnumber;
+            location.href = "/cart/insert?gid=" + gid + "&gnumber=" + gnumber;
         }
 
     </script>

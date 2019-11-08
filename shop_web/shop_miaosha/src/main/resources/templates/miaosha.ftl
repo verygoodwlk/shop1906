@@ -628,6 +628,22 @@
 
     <script type="text/javascript">
 
+        //设置浏览器页面监听
+        document.addEventListener('visibilitychange',function(){ //浏览器切换事件
+            if(document.visibilityState=='hidden') { //状态判断
+                // console.log("隐藏了！！");
+                //停止定时器
+                clearTimeout(timeout);
+            }else {
+                // console.log("可见了！！");
+                //同步服务器时间
+                getServerNow();
+                //调用倒计时方法 - 开启了定时器
+                djs();
+            }
+        });
+
+
         //实现倒计时的方案
 
         //当前时间
@@ -638,6 +654,10 @@
 
         //开始倒计时
         var count = 0;//计数器
+
+        //定时器对象
+        var timeout;
+
         function djs(){
             //获得倒计时的毫秒差
             var djsms = start.getTime() - now.getTime();
@@ -691,7 +711,7 @@
             $("#djs").html(djsStr);
 
             //循环递归调用
-            setTimeout(function () {
+            timeout = setTimeout(function () {
 
                 if(count < 60){
                     //手动计算

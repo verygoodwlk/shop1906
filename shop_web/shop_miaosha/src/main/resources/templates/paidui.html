@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <base th:href="|${#request.getContextPath()}/resources/|"/>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="js/jquery.js"></script>
+    <script th:inline="javascript">
+        $(function(){
+            queryPaidui();
+        });
+
+        /**
+         * 查询当前的排队位置
+         */
+        function queryPaidui(){
+            $.ajax({
+                async: false,
+                type:"GET",
+                url:"/miaosha/queryPaidui",
+                data: {"orderid": [[${orderid}]], "gid": [[${gid}]]},
+                success: function(data){
+                    if(data.code == 0){
+                        //排在排队
+                        var n = data.number;
+                        $("#number").html(n);
+                    } else {
+                        //抢购成功
+                        location.href = "/order/list";
+                    }
+
+                },
+                dataType: "json"
+            });
+
+            setTimeout(function(){
+                queryPaidui();
+            }, 1000 * 10);
+        }
+
+    </script>
+</head>
+<body>
+    <h1>排队中....</h1>
+    <span>当前队列位置：<a id="number">--</a></span>
+</body>
+</html>

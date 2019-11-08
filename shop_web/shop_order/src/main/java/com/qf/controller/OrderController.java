@@ -81,6 +81,6 @@ public class OrderController {
         Orders orders = orderService.insertOrder(aid, cartids, user.getId());
 
         //去支付 -> 跳转到支付服务 -> 支付选择页面
-        return "redirect:http://localhost:16666/pay/alipay?oid=" + orders.getId();
+        return "redirect:/pay/alipay?oid=" + orders.getId();
     }
 }

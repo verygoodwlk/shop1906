@@ -23,6 +23,10 @@
 
     </resultMap>
 
+    <update id="jianSave">
+        update goods_miaosha set miaosha_save = miaosha_save - 1 where gid = #{gid} and miaosha_save >= 1
+    </update>
+
 
     <select id="queryAllGoods" resultMap="MyResultMap">
         select *, gi.id as 'giid' from goods g join goods_images gi on g.id = gi.gid

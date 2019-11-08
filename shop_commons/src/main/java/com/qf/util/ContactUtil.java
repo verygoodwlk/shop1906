@@ -19,4 +19,9 @@ public interface ContactUtil {
      * 当前秒杀开始的时间后缀
      */
     String REDIS_MIAOSHA_TIME_PROFIX = "time_profix";
+
+    /**
+     * 秒杀商品的库存
+     */
+    String REDIS_MIAOSHA_SAVE = "miaosha_save";
 }

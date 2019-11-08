@@ -1,7 +1,7 @@
 //ajax -> sso
 $.ajax({
     type: "POST",
-    url: "http://localhost:16666/sso/isLogin",
+    url: "/sso/isLogin",
     success: function(data){
         if(data.code == "0000"){
             //已经登录
@@ -10,7 +10,7 @@ $.ajax({
             //未登录
             $("#pid").html(
                 "[<a onclick=\"mylogin();\">登录</a>]" +
-                "[<a href=\"http://localhost:16666/sso/toRegister\">注册</a>]");
+                "[<a href=\"/sso/toRegister\">注册</a>]");
         }
     },
     dataType: "json"
@@ -25,5 +25,5 @@ function mylogin(){
     returnUrl = encodeURIComponent(returnUrl);
 
     //跳转到登录页
-    location.href = "http://localhost:16666/sso/toLogin?returnUrl=" + returnUrl;
+    location.href = "/sso/toLogin?returnUrl=" + returnUrl;
 }
