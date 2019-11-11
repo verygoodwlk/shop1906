@@ -15,9 +15,9 @@ public class ConnectionUtil {
         connectionFactory = new ConnectionFactory();
         connectionFactory.setHost("192.168.195.129");//主机的ip
         connectionFactory.setPort(5672);
-        connectionFactory.setUsername("admin");
-        connectionFactory.setPassword("admin");
-        connectionFactory.setVirtualHost("/admin");
+        connectionFactory.setUsername("guest");
+        connectionFactory.setPassword("guest");
+        connectionFactory.setVirtualHost("/");
     }
 
     public static Connection getConnection(){

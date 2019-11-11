@@ -156,6 +156,7 @@ public class MiaoshaController {
 
         rabbitTemplate.convertAndSend("miaosha_exchange", "", map);
 
+
         return "paidui";
     }
 

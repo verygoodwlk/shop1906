@@ -14,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.List;
 
@@ -40,6 +41,10 @@ public class OrderController {
     public String orderList(User user, Model model){
 
         List<Orders> orders = orderService.queryByUid(user.getId());
+        System.out.println("查询的订单列表：");
+        for (Orders order : orders) {
+            System.out.println("下单时间：" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(order.getCreateTime()));
+        }
         model.addAttribute("ordersList", orders);
 
         return "orderlist";

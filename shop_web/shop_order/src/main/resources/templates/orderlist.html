@@ -561,13 +561,16 @@
                             <!-- 订单总状态 -->
                             <td class="digndan_caozuo" th:if="${orderDetilsState.first}" th:rowspan="${#lists.size(orders.orderDetils)}" th:switch="${orders.status}">
                                 <a th:case="0">
+                                    <input type="hidden" name="orderTime" th:alt="${orders.id}" th:value="${#dates.format(orders.createTime, 'yyyy-MM-dd HH:mm:ss')}"/>
+                                    剩余时间 <span th:id="|time_${orders.id}|">00:00:00</span><br/><br/>
                                     待支付<br/><br/>
-                                    <button th:onclick="|javascript:location.href='/pay/alipay?oid=${orders.orderid}'|">去支付</button>
+                                    <button th:onclick="|javascript:location.href='/pay/alipay?oid=${orders.id}'|">去支付</button>
                                 </a>
                                 <a th:case="1">已支付</a>
                                 <a th:case="2">待收货</a>
                                 <a th:case="3">已收货</a>
                                 <a th:case="4">已评价</a>
+                                <a th:case="5">已关闭</a>
                             </td>
                         </tr>
                         </tbody>
@@ -580,6 +583,127 @@
         </div>
     </div>
     <!-- 右边购物列表 End -->
+
+    <script>
+        //设置浏览器页面监听
+        document.addEventListener('visibilitychange',function(){ //浏览器切换事件
+            if(document.visibilityState=='hidden') { //状态判断
+                // console.log("隐藏了！！");
+                //停止定时器
+                clearTimeout(timeout);
+            }else {
+                // console.log("可见了！！");
+                //同步服务器时间
+                getServerNow();
+                //调用倒计时方法 - 开启了定时器
+                djs();
+            }
+        });
+
+
+        //实现倒计时的方案
+
+        //当前时间
+        var now;//获得服务器的当前时间
+
+        //开始倒计时
+        var count = 0;//计数器
+
+        //30分钟需要的毫秒是
+        var mustMs = 1000 * 60 * 2;
+
+        //定时器对象
+        var timeout;
+
+        function djs(){
+
+            //获得所有未支付订单的下单时间
+            var hiddens = $("input[type='hidden'][name='orderTime']");
+            //循环所有的隐藏域，获得每个未支付订单的下单时间以及订单id
+            hiddens.each(function(){
+                //获得当前循环到的对象
+                var orderTime = new Date($(this).val());//获得当前订单的下单时间
+                var orderId = $(this).attr("alt");//获得当前订单的订单号
+
+                //alert(orderId + " " + orderTime);
+
+                //计算每个订单的倒计时
+                var orderMs = now.getTime() - orderTime.getTime();//下单时间的毫秒数
+                // console.log("当前时间：" + now + " 下单时间：" + orderTime + " 下单的耗时：" + orderMs);
+
+
+                //距离支付结束剩余的毫秒数
+                var djsms = mustMs - orderMs;
+                // console.log("距离30分钟：" + djsms);
+
+                if(djsms <= 0){
+                    //刷新页面
+                    // location.reload();
+                } else {
+
+                    //毫秒转小时 - parseInt取整数
+                    var h = parseInt(djsms/1000/60/60);
+                    //毫秒转分钟
+                    var m = parseInt(djsms/1000/60%60);
+                    //毫秒转秒
+                    var s = parseInt(djsms/1000%60);
+
+                    //当前订单距离支付结束的倒计时
+                    var djsStr = formatTime(h) + ":" + formatTime(m) + ":" + formatTime(s);
+                    $("#time_" + orderId).html(djsStr);
+                }
+            });
+
+            //循环递归调用
+            timeout = setTimeout(function () {
+
+                if(count < 60){
+                    //手动计算
+                    //当前时间 + 1
+                    now.setSeconds(now.getSeconds() + 1);
+                    count++;
+                } else {
+                    //大概一分钟，主动同步服务器时间
+                    getServerNow();
+                    count = 0;
+                }
+
+                //一秒之后又调用一次倒计时方法
+                djs();
+
+            }, 1000);
+        }
+
+        //获得服务器的当前时间
+        function getServerNow(){
+            $.ajax({
+                type:"POST",
+                async:false,//设置当前ajax为同步请求
+                url:"/miaosha/getNow",
+                success:function(time){
+                    now = new Date(time);
+                }
+            });
+        }
+
+        //处理时间格式，保证显示两位数
+        function formatTime(ele){
+            if(ele < 10){
+                return "0" + ele;
+            }
+            return ele;
+        }
+
+        //页面加载后触发
+        $(function(){
+            //获得当前时间
+            getServerNow();
+
+            //开始倒计时
+            djs();
+        });
+
+    </script>
 
 </div>
 <!-- 我的个人中心 End -->

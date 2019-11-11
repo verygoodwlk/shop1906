@@ -30,5 +30,6 @@ public class Consumer {
                 System.out.println(new SimpleDateFormat("hh:mm:ss").format(new Date()) + " -> 获得优先级队列中的消息：" + new String(body, "utf-8"));
             }
         });
+
     }
 }

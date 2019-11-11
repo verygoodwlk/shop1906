@@ -22,11 +22,14 @@ public class Provdier {
         //fanout - 广播交换机
         //direct - 路由键交换机
         //topic - 通配符交换机
-        channel.exchangeDeclare("myexchange", "fanout");
+        channel.exchangeDeclare("test_exchange", "fanout", true);
 
         //3、发送消息到交换机
-        String info = "Hello FanOut";
-        channel.basicPublish("myexchange", "", null, info.getBytes("utf-8"));
+        for (int i = 0; i < 100000; i++) {
+            String info = "Hello msg:" + i;
+            channel.basicPublish("test_exchange", "", null, info.getBytes("utf-8"));
+
+        }
 
         connection.close();
         System.out.println("消息发送完成！");
