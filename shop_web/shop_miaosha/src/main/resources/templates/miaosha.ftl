@@ -618,6 +618,11 @@
                 </li>
                 <li style="padding:20px 0;">
                     <label>&nbsp;</label>
+                    <span>
+                        <button id="tixing" onclick="msg_tixing();">提醒我</button>
+                        <button id="untixing" onclick="msg_quxiaotixing();" style="display: none;">取消提醒</button>
+                    </span><br/>
+                    <label>&nbsp;</label>
                     <span><strong style="color: red">距离秒杀开始还剩：<a id="djs">00:00:00</a></strong></span><br/>
                     <label>&nbsp;</label>
                     <span><button id="startBtn" disabled="disabled">即将开始</button></span><br/>
@@ -627,6 +632,52 @@
     </div>
 
     <script type="text/javascript">
+
+        /*$(function(){
+           //获得cookie
+           var cookies = document.cookie;
+           var cookiesArray = cookies.split(";");
+           for(var i = 0; i < cookiesArray.length; i++){
+               var cookie = cookiesArray[i];//key=value
+               var key = cookie.split("=")[0];
+               var value = cookie.split("=")[1];
+
+               if(key == "tixing" && value == ${goods.id}){
+                   //已经设置过提醒
+                   //修改提醒按钮
+                   $("#tixing").hide();
+                   $("#untixing").show();
+                   break;
+               }
+           }
+
+        });*/
+
+        /**
+         * 秒杀提醒
+         */
+        function msg_tixing(){
+
+            //ajax通知后台
+            var gid = ${goods.id};
+
+            $.ajax({
+                url: "/msg/tixing",
+                data: {"gid":gid},
+                success: function(data){
+                    if(data == "succ"){
+                        //提醒设置成功
+                        //将当前商品提醒的信息保存到用户的cookie中
+                        document.cookie = "tixing="+gid;
+
+                        //修改提醒按钮
+                        $("#tixing").hide();
+                        $("#untixing").show();
+                    }
+                }
+            });
+        }
+
 
         //设置浏览器页面监听
         document.addEventListener('visibilitychange',function(){ //浏览器切换事件

@@ -25,7 +25,7 @@ public class Provdier {
         channel.exchangeDeclare("test_exchange", "fanout", true);
 
         //3、发送消息到交换机
-        for (int i = 0; i < 100000; i++) {
+        for (int i = 0; i < 10; i++) {
             String info = "Hello msg:" + i;
             channel.basicPublish("test_exchange", "", null, info.getBytes("utf-8"));
 

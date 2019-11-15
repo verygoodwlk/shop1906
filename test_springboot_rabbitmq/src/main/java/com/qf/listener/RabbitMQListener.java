@@ -2,10 +2,6 @@ package com.qf.listener;
 
 import com.rabbitmq.client.Channel;
 import org.springframework.amqp.core.Message;
-import org.springframework.amqp.rabbit.annotation.Exchange;
-import org.springframework.amqp.rabbit.annotation.Queue;
-import org.springframework.amqp.rabbit.annotation.QueueBinding;
-import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.amqp.rabbit.listener.RabbitListenerEndpointRegistry;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -21,10 +17,10 @@ public class RabbitMQListener {
 
     private int count;
 
-    @RabbitListener(bindings = @QueueBinding(
-            value = @Queue(name = "test_queue"),
-            exchange = @Exchange(name = "test_exchange", type = "fanout")
-    ), autoStartup = "false", id = "msgRabbitmq")
+//    @RabbitListener(bindings = @QueueBinding(
+//            value = @Queue(name = "test_queue", autoDelete = "true", declare = "true"),
+//            exchange = @Exchange(name = "test_exchange", type = "fanout")
+//    ), autoStartup = "true", id = "msgRabbitmq")
     public void msgHandler(byte[] bytes, Message message, Channel channel){
 
         try {

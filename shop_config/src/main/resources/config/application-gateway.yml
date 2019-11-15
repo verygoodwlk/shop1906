@@ -45,6 +45,10 @@ spring:
         - uri: lb://web-miaosha
           predicates:
             - Path=/miaosha/**
+        #消息服务的路由规则
+        - uri: lb://web-msg
+          predicates:
+            - Path=/msg/**
         #前台服务的路由规则
         - uri: lb://web-front
           predicates:
